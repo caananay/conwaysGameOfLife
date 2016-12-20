@@ -2,14 +2,20 @@ from decimal import *
 import fractions
 
 class Fraction:
-    def __init__(self, numerator,denominator):
+    def __init__(self, numerator,denominator, mydecimal):
         self.num = numerator
         self.den = denominator
+        if type(mydecimal) is Decimal:
+            self.num, self.den = self.convert_decimal_to_fraction(mydecimal)
+        elif type(mydecimal) is tuple:
+            self.num, self.den = mydecimal
+        else:
+            raise ValueError("The input must either be a decimal number or a tuple")
 
     def __repr__(self):
         divi = fractions.gcd(self.num, self.den)
         numer = self.num/divi
-        denom = self.den/divi
+        denom = self.denom/divi
         qr=divmod(numer,denom)
         whole_number =qr[0]
         remainder =qr[1]
@@ -41,13 +47,22 @@ class Fraction:
         return Fraction(self.num * other.den, self.den * other.num)
 
     def __eq__(self, other):
-        return self.num == other.num and self.den == other.den
+        a = self.den * other.den
+        b = self.num * (a / self.den)
+        c = other.num * (a / other.den)
+        return b == c
 
     def __ne__(self, other):
-        return self.num != other.num and self.den != other.den
+        a = self.den * other.den
+        b = self.num * (a / self.den)
+        c = other.num * (a / other.den)
+        return b != c
 
     def __gt__(self, other):
-        return self.__dict__ > other.__dict__
+        a =self.den * other.den
+        b = self.num * (a/self.den)
+        c = other.num * (a/other.den)
+        return b > c
 
 f=Fraction(0,0,Decimal('0.24'))
 print f.convert_decimal_to_fraction()
