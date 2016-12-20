@@ -15,7 +15,7 @@ class Fraction:
     def __repr__(self):
         divi = fractions.gcd(self.num, self.den)
         numer = self.num/divi
-        denom = self.denom/divi
+        denom = self.den/divi
         qr=divmod(numer,denom)
         whole_number =qr[0]
         remainder =qr[1]
